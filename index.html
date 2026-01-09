@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rotador Dashboard - TV</title>
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+    }
+
+    #visor {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <iframe id="visor" src=""></iframe>
+
+  <script>
+    /* =========================
+       LINKS A MOSTRAR
+    ========================== */
+    const links = [
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVUFvcj25sQ1uPU89WGVD2aPPrCS46q0noqEbno2-EUkMvofssHT4I2kQbjq3E9m2ezwKjz1rXhJDn/pubhtml?gid=1883311329&single=true",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVUFvcj25sQ1uPU89WGVD2aPPrCS46q0noqEbno2-EUkMvofssHT4I2kQbjq3E9m2ezwKjz1rXhJDn/pubhtml?gid=1883311329&single=true"
+      // agrega más si necesitas
+    ];
+
+    /* =========================
+       INTERVALO DE ROTACIÓN
+       (segundos)
+    ========================== */
+    const INTERVALO_SEGUNDOS = 30;
+
+    const iframe = document.getElementById("visor");
+    let index = 0;
+
+    function mostrar(i) {
+      index = (i + links.length) % links.length;
+      iframe.src = links[index];
+    }
+
+    function iniciarRotacion() {
+      setInterval(() => {
+        mostrar(index + 1);
+      }, INTERVALO_SEGUNDOS * 1000);
+    }
+
+    /* =========================
+       ANTI-INACTIVIDAD (LG)
+       Simula actividad cada
+       10 minutos
+    ========================== */
+    setInterval(() => {
+      window.dispatchEvent(new Event("mousemove"));
+      window.dispatchEvent(new Event("keydown"));
+    }, 10 * 60 * 1000);
+
+    /* =========================
+       INICIO
+    ========================== */
+    mostrar(0);
+    iniciarRotacion();
+  </script>
+
+</body>
+</html>
