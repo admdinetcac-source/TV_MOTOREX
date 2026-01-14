@@ -13,6 +13,31 @@
       overflow: hidden;
     }
 
+    .contenedor {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ===== VIDEO ===== */
+    .zona-video {
+      width: 40%;
+      height: 100%;
+      background: black;
+    }
+
+    .zona-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== DASHBOARD ===== */
+    .zona-web {
+      width: 60%;
+      height: 100%;
+    }
+
     #visor {
       width: 100%;
       height: 100%;
@@ -24,54 +49,68 @@
 
 <body>
 
-  <iframe id="visor" src=""></iframe>
+<div class="contenedor">
 
-  <script>
-    /* =========================
-       LINKS A MOSTRAR
-    ========================== */
-    const links = [
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVUFvcj25sQ1uPU89WGVD2aPPrCS46q0noqEbno2-EUkMvofssHT4I2kQbjq3E9m2ezwKjz1rXhJDn/pubhtml?gid=1883311329&single=true",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVUFvcj25sQ1uPU89WGVD2aPPrCS46q0noqEbno2-EUkMvofssHT4I2kQbjq3E9m2ezwKjz1rXhJDn/pubhtml?gid=1883311329&single=true"
-      // agrega más si necesitas
-    ];
+  <!-- VIDEO EN LOOP -->
+  <div class="zona-video">
+    <video autoplay muted loop playsinline>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+  </div>
 
-    /* =========================
-       INTERVALO DE ROTACIÓN
-       (segundos)
-    ========================== */
-    const INTERVALO_SEGUNDOS = 30;
+  <!-- DASHBOARD ROTADOR -->
+  <div class="zona-web">
+    <iframe id="visor" src=""></iframe>
+  </div>
 
-    const iframe = document.getElementById("visor");
-    let index = 0;
+</div>
 
-    function mostrar(i) {
-      index = (i + links.length) % links.length;
-      iframe.src = links[index];
-    }
+<script>
+  /* =========================
+     LINKS A MOSTRAR
+  ========================== */
+  const links = [
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVUFvcj25sQ1uPU89WGVD2aPPrCS46q0noqEbno2-EUkMvofssHT4I2kQbjq3E9m2ezwKjz1rXhJDn/pubhtml?gid=1883311329&single=true",
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVUFvcj25sQ1uPU89WGVD2aPPrCS46q0noqEbno2-EUkMvofssHT4I2kQbjq3E9m2ezwKjz1rXhJDn/pubhtml?gid=1883311329&single=true"
+  ];
 
-    function iniciarRotacion() {
-      setInterval(() => {
-        mostrar(index + 1);
-      }, INTERVALO_SEGUNDOS * 1000);
-    }
+  /* =========================
+     INTERVALO DE ROTACIÓN
+     (segundos)
+  ========================== */
+  const INTERVALO_SEGUNDOS = 30;
 
-    /* =========================
-       ANTI-INACTIVIDAD (LG)
-       Simula actividad cada
-       10 minutos
-    ========================== */
+  const iframe = document.getElementById("visor");
+  let index = 0;
+
+  function mostrar(i) {
+    index = (i + links.length) % links.length;
+    iframe.src = links[index];
+  }
+
+  function iniciarRotacion() {
     setInterval(() => {
-      window.dispatchEvent(new Event("mousemove"));
-      window.dispatchEvent(new Event("keydown"));
-    }, 10 * 60 * 1000);
+      mostrar(index + 1);
+    }, INTERVALO_SEGUNDOS * 1000);
+  }
 
-    /* =========================
-       INICIO
-    ========================== */
-    mostrar(0);
-    iniciarRotacion();
-  </script>
+  /* =========================
+     ANTI-INACTIVIDAD (LG)
+     Simula actividad cada
+     10 minutos
+  ========================== */
+  setInterval(() => {
+    window.dispatchEvent(new Event("mousemove"));
+    window.dispatchEvent(new Event("keydown"));
+  }, 10 * 60 * 1000);
+
+  /* =========================
+     INICIO
+  ========================== */
+  mostrar(0);
+  iniciarRotacion();
+</script>
 
 </body>
 </html>
+
